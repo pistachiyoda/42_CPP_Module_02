@@ -20,6 +20,12 @@ Fixed::Fixed(const int raw)
     value = raw << fractionalBits;
 }
 
+Fixed::Fixed(const float raw)
+{
+    std::cout << "Float constructor called" << std::endl;
+    value = roundf(raw * (1 << fractionalBits));
+}
+
 Fixed::~Fixed()
 {
     std::cout << "Destructor called" << std::endl;
@@ -64,14 +70,14 @@ bool Fixed::operator!=(const Fixed &fixed) const
 
 Fixed Fixed::operator+(const Fixed &fixed) const
 {
-    Fixed ret(*this);
+    Fixed ret;
     ret.setRawBits(value + fixed.getRawBits());
     return ret;
 }
 
 Fixed Fixed::operator-(const Fixed &fixed) const
 {
-    Fixed ret(*this);
+    Fixed ret;
     ret.setRawBits(value - fixed.getRawBits());
     return ret;
 }
@@ -114,12 +120,6 @@ Fixed Fixed::operator--(int)
 
     --(*this);
     return (current);
-}
-
-Fixed::Fixed(const float raw)
-{
-    std::cout << "Float constructor called" << std::endl;
-    value = roundf(raw * (1 << fractionalBits));
 }
 
 int Fixed::getRawBits() const
